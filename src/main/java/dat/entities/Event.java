@@ -47,6 +47,13 @@ public class Event {
         this.hotelType = hotelType;
     }*/
 
+    public Event(String eventName, double estimatedPrice, String description, DressCode dressCode) {
+        this.eventName = eventName;
+        this.estimatedPrice = estimatedPrice;
+        this.description = description;
+        this.dressCode = dressCode;
+    }
+
     public Event(EventDTO eventDTO) {
         this.id = eventDTO.getId();
         this.eventName = eventDTO.getEventName();

@@ -1,8 +1,8 @@
 package dat.config;
 
 
+import dat.entities.Event;
 import dat.entities.EventGroup;
-import dat.entities.Hotel;
 import jakarta.persistence.EntityManagerFactory;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,8 +19,8 @@ public class Populate {
 
         try (var em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            Hotel california = new Hotel("Hotel California", "California", Hotel.HotelType.LUXURY);
-            Hotel hilton = new Hotel("Hilton", "Copenhagen", Hotel.HotelType.STANDARD);
+            Event california = new Event("Skydive",2000,"Nice sky diving",Event.DressCode.BUDGET);
+            Event hilton = new Event("private party",200,"Nice party",Event.DressCode.LUXURY);
             california.setEventGroups(calEventGroups);
             hilton.setEventGroups(hilEventGroups);
             em.persist(california);
