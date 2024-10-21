@@ -36,8 +36,8 @@ public class EventGroup {
 
     @Setter
     @ManyToOne
-    @JoinColumn(name = "hotel_id", nullable = false)
-    private Hotel hotel;
+    @JoinColumn(name = "event_id", nullable = false)
+    private Event event;
 
     public EventGroup(Integer eventgroupNumber, BigDecimal eventgroupPrice, eventgroupType EventGroupType) {
         this.EventGroupNumber = eventgroupNumber;
@@ -57,12 +57,12 @@ public class EventGroup {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EventGroup eventGroup = (EventGroup) o;
-        return Objects.equals(EventGroupNumber, eventGroup.EventGroupNumber) && Objects.equals(hotel, eventGroup.hotel);
+        return Objects.equals(EventGroupNumber, eventGroup.EventGroupNumber) && Objects.equals(event, eventGroup.event);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(EventGroupNumber, hotel);
+        return Objects.hash(EventGroupNumber, event);
     }
 
     public enum eventgroupType {
