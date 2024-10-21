@@ -65,6 +65,22 @@ public class EventGroup {
     }
 
     public enum eventgroupType {
-        SINGLE, DOUBLE, SUITE
+        Adrenalin,    // Exciting, high-energy events like extreme sports or adventures
+        Chill,        // Relaxed, calm events like yoga or nature retreats
+        Alcohol,      // Events where alcohol is a major focus, like bar crawls or wine tastings
+        Educational,  // Workshops, seminars, or learning-based events
+        Music,        // Concerts, festivals, or music-related gatherings
+        Cultural,     // Museum tours, cultural festivals, or heritage-related events
+        Social,       // Meetups, networking events, or social gatherings
+        Fitness,      // Workout sessions, marathons, or fitness challenges
+        Creative,     // Art classes, craft workshops, or creative projects
+        Foodie,       // Food-focused events like tastings, cooking classes, or food festivals
+        Spiritual,    // Meditation, mindfulness, or religious events
+        Outdoor,      // Camping, hiking, or other nature-focused events
+        Sports,       // Spectator sports events, or casual sports like soccer, basketball
+        Party,        // Nightclubs, rave parties, or large celebratory events
+        Tech,         // Hackathons, tech conferences, or innovation workshops
+        Charity       // Fundraisers, volunteer activities, or charity events
     }
+
 }
