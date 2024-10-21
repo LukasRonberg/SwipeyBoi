@@ -2,7 +2,7 @@ package dat.controllers.impl;
 
 import dat.config.HibernateConfig;
 import dat.controllers.IController;
-import dat.daos.impl.RoomDAO;
+import dat.daos.impl.EventGroupDAO;
 import dat.dtos.HotelDTO;
 import dat.dtos.EventGroupDTO;
 import dat.exceptions.Message;
@@ -12,13 +12,13 @@ import jakarta.persistence.EntityManagerFactory;
 import java.util.List;
 import java.util.function.BiFunction;
 
-public class RoomController implements IController<EventGroupDTO, Integer> {
+public class EventGroupController implements IController<EventGroupDTO, Integer> {
 
-    private RoomDAO dao;
+    private EventGroupDAO dao;
 
-    public RoomController() {
+    public EventGroupController() {
         EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
-        this.dao = RoomDAO.getInstance(emf);
+        this.dao = EventGroupDAO.getInstance(emf);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class RoomController implements IController<EventGroupDTO, Integer> {
         EventGroupDTO jsonRequest = validateEntity(ctx);
 
         int hotelId = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
-        Boolean hasRoom = validateHotelRoomNumber.apply(jsonRequest.getRoomNumber(), hotelId);
+        Boolean hasRoom = validateHotelRoomNumber.apply(jsonRequest.getEventGroupNumber(), hotelId);
 
         if (hasRoom) {
             ctx.res().setStatus(400);
@@ -91,9 +91,9 @@ public class RoomController implements IController<EventGroupDTO, Integer> {
     @Override
     public EventGroupDTO validateEntity(Context ctx) {
         return ctx.bodyValidator(EventGroupDTO.class)
-                .check(r -> r.getRoomNumber() != null && r.getRoomNumber() > 0, "Not a valid room number")
-                .check(r -> r.getRoomType() != null, "Not a valid room type")
-                .check(r -> r.getRoomPrice() != null , "Not a valid price")
+                .check(r -> r.getEventGroupNumber() != null && r.getEventGroupNumber() > 0, "Not a valid room number")
+                .check(r -> r.getEventGroupType() != null, "Not a valid room type")
+                .check(r -> r.getEventGroupPrice() != null , "Not a valid price")
                 .get();
     }
 }

@@ -16,15 +16,15 @@ import java.util.List;
 import java.util.function.Function;
 
 @NoArgsConstructor(access = lombok.AccessLevel.PRIVATE)
-public class RoomDAO implements IDAO<EventGroupDTO, Integer> {
+public class EventGroupDAO implements IDAO<EventGroupDTO, Integer> {
 
-    private static RoomDAO instance;
+    private static EventGroupDAO instance;
     private static EntityManagerFactory emf;
 
-    public static RoomDAO getInstance(EntityManagerFactory _emf) {
+    public static EventGroupDAO getInstance(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
-            instance = new RoomDAO();
+            instance = new EventGroupDAO();
         }
         return instance;
     }

@@ -1,22 +1,22 @@
 package dat.routes;
 
-import dat.controllers.impl.RoomController;
+import dat.controllers.impl.EventGroupController;
 import io.javalin.apibuilder.EndpointGroup;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class RoomRoute {
 
-    private final RoomController roomController = new RoomController();
+    private final EventGroupController eventGroupController = new EventGroupController();
 
     protected EndpointGroup getRoutes() {
 
         return () -> {
-            post("/hotel/{id}", roomController::create);
-            get("/", roomController::readAll);
-            get("/{id}", roomController::read);
-            put("/{id}", roomController::update);
-            delete("/{id}", roomController::delete);
+            post("/hotel/{id}", eventGroupController::create);
+            get("/", eventGroupController::readAll);
+            get("/{id}", eventGroupController::read);
+            put("/{id}", eventGroupController::update);
+            delete("/{id}", eventGroupController::delete);
         };
     }
 }
