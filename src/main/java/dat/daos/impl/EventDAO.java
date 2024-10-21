@@ -1,8 +1,8 @@
 package dat.daos.impl;
 
 import dat.daos.IDAO;
-import dat.dtos.HotelDTO;
-import dat.entities.Hotel;
+import dat.dtos.EventDTO;
+import dat.entities.Event;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
@@ -11,57 +11,57 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @NoArgsConstructor(access = lombok.AccessLevel.PRIVATE)
-public class HotelDAO implements IDAO<HotelDTO, Integer> {
+public class EventDAO implements IDAO<EventDTO, Integer> {
 
-    private static HotelDAO instance;
+    private static EventDAO instance;
     private static EntityManagerFactory emf;
 
-    public static HotelDAO getInstance(EntityManagerFactory _emf) {
+    public static EventDAO getInstance(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
-            instance = new HotelDAO();
+            instance = new EventDAO();
         }
         return instance;
     }
 
     @Override
-    public HotelDTO read(Integer integer) {
+    public EventDTO read(Integer integer) {
         try (EntityManager em = emf.createEntityManager()) {
-            Hotel hotel = em.find(Hotel.class, integer);
-            return new HotelDTO(hotel);
+            Event event = em.find(Event.class, integer);
+            return new EventDTO(event);
         }
     }
 
     @Override
-    public List<HotelDTO> readAll() {
+    public List<EventDTO> readAll() {
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<HotelDTO> query = em.createQuery("SELECT new dat.dtos.HotelDTO(h) FROM Hotel h", HotelDTO.class);
+            TypedQuery<EventDTO> query = em.createQuery("SELECT new dat.dtos.EventDTO(h) FROM Event h", EventDTO.class);
             return query.getResultList();
         }
     }
 
     @Override
-    public HotelDTO create(HotelDTO hotelDTO) {
+    public EventDTO create(EventDTO eventDTO) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            Hotel hotel = new Hotel(hotelDTO);
-            em.persist(hotel);
+            Event event = new Event(eventDTO);
+            em.persist(event);
             em.getTransaction().commit();
-            return new HotelDTO(hotel);
+            return new EventDTO(event);
         }
     }
 
     @Override
-    public HotelDTO update(Integer integer, HotelDTO hotelDTO) {
+    public EventDTO update(Integer integer, EventDTO eventDTO) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            Hotel h = em.find(Hotel.class, integer);
-            h.setHotelName(hotelDTO.getHotelName());
-            h.setHotelAddress(hotelDTO.getHotelAddress());
-            h.setHotelType(hotelDTO.getHotelType());
-            Hotel mergedHotel = em.merge(h);
+            Event h = em.find(Event.class, integer);
+            h.setHotelName(eventDTO.getEventName());
+            h.setHotelAddress(eventDTO.getDescription());
+            h.setHotelType(eventDTO.getDressCode());
+            Event mergedEvent = em.merge(h);
             em.getTransaction().commit();
-            return mergedHotel != null ? new HotelDTO(mergedHotel) : null;
+            return mergedEvent != null ? new EventDTO(mergedEvent) : null;
         }
     }
 
@@ -69,9 +69,9 @@ public class HotelDAO implements IDAO<HotelDTO, Integer> {
     public void delete(Integer integer) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            Hotel hotel = em.find(Hotel.class, integer);
-            if (hotel != null) {
-                em.remove(hotel);
+            Event event = em.find(Event.class, integer);
+            if (event != null) {
+                em.remove(event);
             }
             em.getTransaction().commit();
         }
@@ -80,8 +80,8 @@ public class HotelDAO implements IDAO<HotelDTO, Integer> {
     @Override
     public boolean validatePrimaryKey(Integer integer) {
         try (EntityManager em = emf.createEntityManager()) {
-            Hotel hotel = em.find(Hotel.class, integer);
-            return hotel != null;
+            Event event = em.find(Event.class, integer);
+            return event != null;
         }
     }
 }

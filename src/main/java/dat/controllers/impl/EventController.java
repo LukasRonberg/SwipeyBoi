@@ -2,21 +2,21 @@ package dat.controllers.impl;
 
 import dat.config.HibernateConfig;
 import dat.controllers.IController;
-import dat.daos.impl.HotelDAO;
-import dat.dtos.HotelDTO;
-import dat.entities.Hotel;
+import dat.daos.impl.EventDAO;
+import dat.dtos.EventDTO;
+import dat.entities.Event;
 import io.javalin.http.Context;
 import jakarta.persistence.EntityManagerFactory;
 
 import java.util.List;
 
-public class HotelController implements IController<HotelDTO, Integer> {
+public class EventController implements IController<EventDTO, Integer> {
 
-    private final HotelDAO dao;
+    private final EventDAO dao;
 
-    public HotelController() {
+    public EventController() {
         EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
-        this.dao = HotelDAO.getInstance(emf);
+        this.dao = EventDAO.getInstance(emf);
     }
 
     @Override
@@ -24,30 +24,30 @@ public class HotelController implements IController<HotelDTO, Integer> {
         // request
         int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
         // DTO
-        HotelDTO hotelDTO = dao.read(id);
+        EventDTO eventDTO = dao.read(id);
         // response
         ctx.res().setStatus(200);
-        ctx.json(hotelDTO, HotelDTO.class);
+        ctx.json(eventDTO, EventDTO.class);
     }
 
     @Override
     public void readAll(Context ctx) {
         // List of DTOS
-        List<HotelDTO> hotelDTOS = dao.readAll();
+        List<EventDTO> eventDTOS = dao.readAll();
         // response
         ctx.res().setStatus(200);
-        ctx.json(hotelDTOS, HotelDTO.class);
+        ctx.json(eventDTOS, EventDTO.class);
     }
 
     @Override
     public void create(Context ctx) {
         // request
-        HotelDTO jsonRequest = ctx.bodyAsClass(HotelDTO.class);
+        EventDTO jsonRequest = ctx.bodyAsClass(EventDTO.class);
         // DTO
-        HotelDTO hotelDTO = dao.create(jsonRequest);
+        EventDTO eventDTO = dao.create(jsonRequest);
         // response
         ctx.res().setStatus(201);
-        ctx.json(hotelDTO, HotelDTO.class);
+        ctx.json(eventDTO, EventDTO.class);
     }
 
     @Override
@@ -55,10 +55,10 @@ public class HotelController implements IController<HotelDTO, Integer> {
         // request
         int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
         // dto
-        HotelDTO hotelDTO = dao.update(id, validateEntity(ctx));
+        EventDTO eventDTO = dao.update(id, validateEntity(ctx));
         // response
         ctx.res().setStatus(200);
-        ctx.json(hotelDTO, Hotel.class);
+        ctx.json(eventDTO, Event.class);
     }
 
     @Override
@@ -76,11 +76,11 @@ public class HotelController implements IController<HotelDTO, Integer> {
     }
 
     @Override
-    public HotelDTO validateEntity(Context ctx) {
-        return ctx.bodyValidator(HotelDTO.class)
-                .check( h -> h.getHotelAddress() != null && !h.getHotelAddress().isEmpty(), "Hotel address must be set")
-                .check( h -> h.getHotelName() != null && !h.getHotelName().isEmpty(), "Hotel name must be set")
-                .check( h -> h.getHotelType() != null, "Hotel type must be set")
+    public EventDTO validateEntity(Context ctx) {
+        return ctx.bodyValidator(EventDTO.class)
+                .check( h -> h.getDescription() != null && !h.getDescription().isEmpty(), "Hotel address must be set")
+                .check( h -> h.getEventName() != null && !h.getEventName().isEmpty(), "Hotel name must be set")
+                .check( h -> h.getDressCode() != null, "Hotel type must be set")
                 .get();
     }
 

@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "eventgroup")
