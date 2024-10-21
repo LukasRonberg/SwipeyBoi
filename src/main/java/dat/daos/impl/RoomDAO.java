@@ -3,9 +3,9 @@ package dat.daos.impl;
 
 import dat.daos.IDAO;
 import dat.dtos.HotelDTO;
-import dat.dtos.RoomDTO;
+import dat.dtos.EventGroupDTO;
+import dat.entities.EventGroup;
 import dat.entities.Hotel;
-import dat.entities.Room;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.function.Function;
 
 @NoArgsConstructor(access = lombok.AccessLevel.PRIVATE)
-public class RoomDAO implements IDAO<RoomDTO, Integer> {
+public class RoomDAO implements IDAO<EventGroupDTO, Integer> {
 
     private static RoomDAO instance;
     private static EntityManagerFactory emf;
@@ -29,13 +29,13 @@ public class RoomDAO implements IDAO<RoomDTO, Integer> {
         return instance;
     }
 
-    public HotelDTO addRoomToHotel(Integer hotelId, RoomDTO roomDTO ) {
+    public HotelDTO addRoomToHotel(Integer hotelId, EventGroupDTO eventGroupDTO) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            Room room = new Room(roomDTO);
+            EventGroup eventGroup = new EventGroup(eventGroupDTO);
             Hotel hotel = em.find(Hotel.class, hotelId);
-            hotel.addRoom(room);
-            em.persist(room);
+            hotel.addRoom(eventGroup);
+            em.persist(eventGroup);
             Hotel mergedHotel = em.merge(hotel);
             em.getTransaction().commit();
             return new HotelDTO(mergedHotel);
@@ -43,44 +43,44 @@ public class RoomDAO implements IDAO<RoomDTO, Integer> {
     }
 
     @Override
-    public RoomDTO read(Integer integer) {
+    public EventGroupDTO read(Integer integer) {
         try (EntityManager em = emf.createEntityManager()) {
-            Room room = em.find(Room.class, integer);
-            return room != null ? new RoomDTO(room) : null;
+            EventGroup eventGroup = em.find(EventGroup.class, integer);
+            return eventGroup != null ? new EventGroupDTO(eventGroup) : null;
         }
     }
 
     @Override
-    public List<RoomDTO> readAll() {
+    public List<EventGroupDTO> readAll() {
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<RoomDTO> query = em.createQuery("SELECT new dat.dtos.RoomDTO(r) FROM Room r", RoomDTO.class);
+            TypedQuery<EventGroupDTO> query = em.createQuery("SELECT new dat.dtos.EventGroupDTO(r) FROM EventGroup r", EventGroupDTO.class);
             return query.getResultList();
         }
     }
 
     @Override
-    public RoomDTO create(RoomDTO roomDTO) {
+    public EventGroupDTO create(EventGroupDTO eventGroupDTO) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            Room room = new Room(roomDTO);
-            em.persist(room);
+            EventGroup eventGroup = new EventGroup(eventGroupDTO);
+            em.persist(eventGroup);
             em.getTransaction().commit();
-            return new RoomDTO(room);
+            return new EventGroupDTO(eventGroup);
         }
     }
 
     @Override
-    public RoomDTO update(Integer integer, RoomDTO roomDTO) {
+    public EventGroupDTO update(Integer integer, EventGroupDTO eventGroupDTO) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
 
-            Room r = em.find(Room.class, integer);
-            r.setRoomNumber(roomDTO.getRoomNumber());
-            r.setRoomType(roomDTO.getRoomType());
-            r.setRoomPrice(BigDecimal.valueOf(roomDTO.getRoomPrice()));
-            Room mergedRoom = em.merge(r);
+            EventGroup r = em.find(EventGroup.class, integer);
+            r.setEventGroupNumber(eventGroupDTO.getEventGroupNumber());
+            r.setEventGroupType(eventGroupDTO.getEventGroupType());
+            r.setEventGroupPrice(BigDecimal.valueOf(eventGroupDTO.getEventGroupPrice()));
+            EventGroup mergedEventGroup = em.merge(r);
             em.getTransaction().commit();
-            return new RoomDTO(mergedRoom);
+            return new EventGroupDTO(mergedEventGroup);
         }
     }
 
@@ -88,9 +88,9 @@ public class RoomDAO implements IDAO<RoomDTO, Integer> {
     public void delete(Integer integer) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            Room room = em.find(Room.class, integer);
-            if (room != null){
-                em.remove(room);
+            EventGroup eventGroup = em.find(EventGroup.class, integer);
+            if (eventGroup != null){
+                em.remove(eventGroup);
             }
             em.getTransaction().commit();
         }
@@ -99,22 +99,22 @@ public class RoomDAO implements IDAO<RoomDTO, Integer> {
     @Override
     public boolean validatePrimaryKey(Integer integer) {
         try (EntityManager em = emf.createEntityManager()) {
-            Room room = em.find(Room.class, integer);
-            return room != null;
+            EventGroup eventGroup = em.find(EventGroup.class, integer);
+            return eventGroup != null;
         }
     }
 
     public Function<Integer, Boolean> validateHotelRoomNumber = (roomNumber) -> {
         try (EntityManager em = emf.createEntityManager()) {
-            Room room = em.find(Room.class, roomNumber);
-            return room != null;
+            EventGroup eventGroup = em.find(EventGroup.class, roomNumber);
+            return eventGroup != null;
         }
     };
 
     public Boolean validateHotelRoomNumber(Integer roomNumber, Integer hotelId) {
         try (EntityManager em = emf.createEntityManager()) {
             Hotel hotel = em.find(Hotel.class, hotelId);
-            return hotel.getRooms().stream().anyMatch(r -> r.getRoomNumber().equals(roomNumber));
+            return hotel.getEventGroups().stream().anyMatch(r -> r.getEventGroupNumber().equals(roomNumber));
         }
     }
 

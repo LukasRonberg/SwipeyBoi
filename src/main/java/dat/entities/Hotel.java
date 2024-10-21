@@ -35,7 +35,7 @@ public class Hotel {
     private HotelType hotelType;
 
     @OneToMany(mappedBy = "hotel", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Room> rooms = new HashSet<>();
+    private Set<EventGroup> eventGroups = new HashSet<>();
 
     public Hotel(String hotelName, String hotelAddress, HotelType hotelType) {
         this.hotelName = hotelName;
@@ -49,25 +49,25 @@ public class Hotel {
         this.hotelAddress = hotelDTO.getHotelAddress();
         this.hotelType = hotelDTO.getHotelType();
         if (hotelDTO.getRooms() != null) {
-            hotelDTO.getRooms().forEach(roomDTO -> rooms.add(new Room(roomDTO)));
+            hotelDTO.getRooms().forEach(roomDTO -> eventGroups.add(new EventGroup(roomDTO)));
         }
     }
 
     // Bi-directional relationship for all rooms in a hotel
-    public void setRooms(Set<Room> rooms) {
-        if(rooms != null) {
-            this.rooms = rooms;
-            for (Room room : rooms) {
-                room.setHotel(this);
+    public void setEventGroups(Set<EventGroup> eventGroups) {
+        if(eventGroups != null) {
+            this.eventGroups = eventGroups;
+            for (EventGroup eventGroup : eventGroups) {
+                eventGroup.setHotel(this);
             }
         }
     }
 
     // Bi-directional relationship
-    public void addRoom(Room room) {
-        if ( room != null) {
-            this.rooms.add(room);
-            room.setHotel(this);
+    public void addRoom(EventGroup eventGroup) {
+        if ( eventGroup != null) {
+            this.eventGroups.add(eventGroup);
+            eventGroup.setHotel(this);
         }
     }
 

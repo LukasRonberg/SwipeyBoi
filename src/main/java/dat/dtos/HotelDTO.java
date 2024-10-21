@@ -17,16 +17,16 @@ public class HotelDTO {
     private String hotelName;
     private String hotelAddress;
     private Hotel.HotelType hotelType;
-    private Set<RoomDTO> rooms = new HashSet<>();
+    private Set<EventGroupDTO> rooms = new HashSet<>();
 
     public HotelDTO(Hotel hotel) {
         this.id = hotel.getId();
         this.hotelName = hotel.getHotelName();
         this.hotelAddress = hotel.getHotelAddress();
         this.hotelType = hotel.getHotelType();
-        if (hotel.getRooms() != null)
+        if (hotel.getEventGroups() != null)
         {
-            hotel.getRooms().forEach( room -> rooms.add(new RoomDTO(room)));
+            hotel.getEventGroups().forEach(room -> rooms.add(new EventGroupDTO(room)));
         }
     }
 

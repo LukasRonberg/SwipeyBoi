@@ -80,15 +80,15 @@ DELETE {{url}}/hotels/5
 
 // Room API
 
-GET {{url}}/rooms
+GET {{url}}/eventGroups
 
 ###
 
-GET {{url}}/rooms/1
+GET {{url}}/eventGroups/1
 
 ###
 
-POST {{url}}/rooms/hotel/3
+POST {{url}}/eventGroups/hotel/3
 Content-Type: application/json
 
 {

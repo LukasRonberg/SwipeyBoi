@@ -4,17 +4,15 @@ import dat.config.HibernateConfig;
 import dat.controllers.IController;
 import dat.daos.impl.RoomDAO;
 import dat.dtos.HotelDTO;
-import dat.dtos.RoomDTO;
+import dat.dtos.EventGroupDTO;
 import dat.exceptions.Message;
-import dat.entities.Hotel;
-import dat.entities.Room;
 import io.javalin.http.Context;
 import jakarta.persistence.EntityManagerFactory;
 
 import java.util.List;
 import java.util.function.BiFunction;
 
-public class RoomController implements IController<RoomDTO, Integer> {
+public class RoomController implements IController<EventGroupDTO, Integer> {
 
     private RoomDAO dao;
 
@@ -28,25 +26,25 @@ public class RoomController implements IController<RoomDTO, Integer> {
         // request
         int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
         // entity
-        RoomDTO roomDTO = dao.read(id);
+        EventGroupDTO eventGroupDTO = dao.read(id);
         // response
         ctx.res().setStatus(200);
-        ctx.json(roomDTO, RoomDTO.class);
+        ctx.json(eventGroupDTO, EventGroupDTO.class);
     }
 
     @Override
     public void readAll(Context ctx) {
         // entity
-        List<RoomDTO> roomDTOS = dao.readAll();
+        List<EventGroupDTO> eventGroupDTOS = dao.readAll();
         // response
         ctx.res().setStatus(200);
-        ctx.json(roomDTOS, RoomDTO.class);
+        ctx.json(eventGroupDTOS, EventGroupDTO.class);
     }
 
     @Override
     public void create(Context ctx) {
         // request
-        RoomDTO jsonRequest = validateEntity(ctx);
+        EventGroupDTO jsonRequest = validateEntity(ctx);
 
         int hotelId = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
         Boolean hasRoom = validateHotelRoomNumber.apply(jsonRequest.getRoomNumber(), hotelId);
@@ -68,10 +66,10 @@ public class RoomController implements IController<RoomDTO, Integer> {
         // request
         int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
         // entity
-        RoomDTO roomDTO = dao.update(id, validateEntity(ctx));
+        EventGroupDTO eventGroupDTO = dao.update(id, validateEntity(ctx));
         // response
         ctx.res().setStatus(200);
-        ctx.json(roomDTO, RoomDTO.class);
+        ctx.json(eventGroupDTO, EventGroupDTO.class);
     }
 
     @Override
@@ -91,8 +89,8 @@ public class RoomController implements IController<RoomDTO, Integer> {
     BiFunction<Integer, Integer, Boolean> validateHotelRoomNumber = (roomNumber, hotelId) -> dao.validateHotelRoomNumber(roomNumber, hotelId);
 
     @Override
-    public RoomDTO validateEntity(Context ctx) {
-        return ctx.bodyValidator(RoomDTO.class)
+    public EventGroupDTO validateEntity(Context ctx) {
+        return ctx.bodyValidator(EventGroupDTO.class)
                 .check(r -> r.getRoomNumber() != null && r.getRoomNumber() > 0, "Not a valid room number")
                 .check(r -> r.getRoomType() != null, "Not a valid room type")
                 .check(r -> r.getRoomPrice() != null , "Not a valid price")
