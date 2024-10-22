@@ -11,7 +11,7 @@ public class Routes {
 
     public EndpointGroup getRoutes() {
         return () -> {
-                path("/hotels", eventRoute.getRoutes());
+                path("/event", eventRoute.getRoutes());
                 path("/rooms", roomRoute.getRoutes());
         };
     }

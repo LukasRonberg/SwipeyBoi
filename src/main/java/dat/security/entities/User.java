@@ -1,5 +1,6 @@
 package dat.security.entities;
 
+import dat.entities.EventGroup;
 import jakarta.persistence.*;
 import lombok.*;
 import org.mindrot.jbcrypt.BCrypt;
@@ -34,6 +35,23 @@ public class User implements Serializable, ISecurityUser {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "age")
+    private int age;
+
+    @Column(name = "phone_number")
+    private int phoneNumber;
+
+    @Column(name = "email")
+    private String email;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_eventgroup",
+            joinColumns = @JoinColumn(name = "username"),
+            inverseJoinColumns = @JoinColumn(name = "eventgroup_id")
+    )
+    private Set<EventGroup> eventGroups = new HashSet<>();
+
     @JoinTable(name = "user_roles", joinColumns = {@JoinColumn(name = "user_name", referencedColumnName = "username")}, inverseJoinColumns = {@JoinColumn(name = "role_name", referencedColumnName = "name")})
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Set<Role> roles = new HashSet<>();
@@ -47,6 +65,16 @@ public class User implements Serializable, ISecurityUser {
             rolesAsStrings.add(role.getRoleName());
         });
         return rolesAsStrings;
+    }
+
+    public void addEventGroup(EventGroup eventGroup) {
+        this.eventGroups.add(eventGroup);
+        eventGroup.getUsers().add(this);
+    }
+
+    public void removeEventGroup(EventGroup eventGroup) {
+        this.eventGroups.remove(eventGroup);
+        eventGroup.getUsers().remove(this);
     }
 
     public boolean verifyPassword(String pw) {

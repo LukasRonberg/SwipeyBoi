@@ -4,6 +4,8 @@ import dat.entities.EventGroup;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -11,14 +13,18 @@ import java.util.List;
 public class EventGroupDTO {
     private Integer Id;
     private Integer EventGroupNumber;
-    private Integer EventGroupPrice;
+    private Double EventGroupPrice;
     private EventGroup.eventgroupType EventGroupType;
+    private LocalDate eventDate;
+    private LocalTime eventTime;
 
     public EventGroupDTO(EventGroup EventGroup) {
         this.Id = EventGroup.getEventGroupId();
         this.EventGroupNumber = EventGroup.getEventGroupNumber();
-        this.EventGroupPrice = EventGroup.getEventGroupPrice().intValue();
+        this.EventGroupPrice = EventGroup.getEventGroupPrice();
         this.EventGroupType = EventGroup.getEventGroupType();
+        this.eventDate = EventGroup.getEventDate();
+        this.eventTime = EventGroup.getEventTime();
     }
 
     public static List<EventGroupDTO> toEventGroupDTOList(List<EventGroup> EventGroups) {

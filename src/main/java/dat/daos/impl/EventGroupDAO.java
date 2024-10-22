@@ -77,7 +77,7 @@ public class EventGroupDAO implements IDAO<EventGroupDTO, Integer> {
             EventGroup r = em.find(EventGroup.class, integer);
             r.setEventGroupNumber(eventGroupDTO.getEventGroupNumber());
             r.setEventGroupType(eventGroupDTO.getEventGroupType());
-            r.setEventGroupPrice(BigDecimal.valueOf(eventGroupDTO.getEventGroupPrice()));
+            r.setEventGroupPrice(eventGroupDTO.getEventGroupPrice());
             EventGroup mergedEventGroup = em.merge(r);
             em.getTransaction().commit();
             return new EventGroupDTO(mergedEventGroup);

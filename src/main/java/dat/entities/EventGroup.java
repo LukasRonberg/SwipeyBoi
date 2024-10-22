@@ -1,13 +1,18 @@
 package dat.entities;
 
 import dat.dtos.EventGroupDTO;
+import dat.security.entities.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -27,7 +32,7 @@ public class EventGroup {
 
     @Setter
     @Column(name = "price", nullable = false)
-    private BigDecimal EventGroupPrice;
+    private double EventGroupPrice;
 
     @Setter
     @Enumerated(EnumType.STRING)
@@ -35,20 +40,39 @@ public class EventGroup {
     private eventgroupType EventGroupType;
 
     @Setter
+    @Column(name = "event_date", nullable = false)
+    private LocalDate eventDate;
+
+    @Setter
+    @Column(name = "event_time", nullable = false)
+    private LocalTime eventTime;
+
+    @Setter
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)
     private Event event;
 
-    public EventGroup(Integer eventgroupNumber, BigDecimal eventgroupPrice, eventgroupType EventGroupType) {
-        this.EventGroupNumber = eventgroupNumber;
-        this.EventGroupPrice = eventgroupPrice;
-        this.EventGroupType = EventGroupType;
+    @ManyToMany(mappedBy = "eventGroups")
+    private Set<User> users = new HashSet<>();
+
+    public EventGroup(Integer eventGroupNumber, double eventGroupPrice, eventgroupType eventGroupType) {
+        this.EventGroupNumber = eventGroupNumber;
+        this.EventGroupPrice = eventGroupPrice;
+        this.EventGroupType = eventGroupType;
+    }
+
+    public EventGroup(Integer eventGroupNumber, double eventGroupPrice, eventgroupType eventGroupType, LocalDate eventDate, LocalTime eventTime) {
+        this.EventGroupNumber = eventGroupNumber;
+        this.EventGroupPrice = eventGroupPrice;
+        this.EventGroupType = eventGroupType;
+        this.eventDate = eventDate;
+        this.eventTime = eventTime;
     }
 
     public EventGroup(EventGroupDTO eventgroupDTO){
         this.EventGroupId = eventgroupDTO.getId();
         this.EventGroupNumber = eventgroupDTO.getEventGroupNumber();
-        this.EventGroupPrice = BigDecimal.valueOf(eventgroupDTO.getEventGroupPrice());
+        this.EventGroupPrice = eventgroupDTO.getEventGroupPrice();
         this.EventGroupType = eventgroupDTO.getEventGroupType();
     }
 
