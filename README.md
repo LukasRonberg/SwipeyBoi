@@ -28,20 +28,46 @@ Users
 - ManyToMany EventGroup
 
 ### Endpoints
-#### Event
-- getEvent
-- getEvent/{id}
-- createEvent
-- updateEvent
-- deleteEvent
-- sortEvents/{eventType}
-- sortByPrice
+![API Table](docs/currentEndpoints.png)
 
-#### User
-- createUser
-- deleteUser
-- updateUser
-- viewUser
+#### (1) Event
+```json
+{
+  "id": Number,
+  "eventName": String,
+  "estimatedPrice": Number,
+  "description": String,
+  "dressCode": String ("BUDGET" | "STANDARD" | "LUXURY"),
+  "eventGroups": []
+}
+```
+
+#### (2) EventGroup
+```json
+{
+  "EventGroupId": Number,
+  "EventGroupNumber": Number,
+  "EventGroupPrice": Number,
+  "EventGroupType": String ("Adrenalin" | "Chill" | "Alcohol" | "Educational" | ...),
+  "event": {
+    "id": Number,
+    "eventName": String
+  }
+}
+```
+
+##### (3) User
+```json
+{
+  "username": String,
+  "password": String,
+  "roles": [
+    {
+      "roleName": String
+    }
+  ]
+}
+```
 
 
 
