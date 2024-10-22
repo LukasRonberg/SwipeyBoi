@@ -1,9 +1,49 @@
-## Hotel REST Exercise
+## Experience Swiper
 
-This is a simple REST API for a event booking system. 
+This project aims to bring people together by swiping through different experiences. 
 It is implemented using Javalin and JPA
 
-![Hotel](./docs/bates_hotel.jpg)
+### ER Diagram
+Event
+- Name
+- Estimated Price
+- Dress code
+- Descriptions
+- OneToMany eventGroup
+
+EventGroup
+- Location
+- Name (location + event name?)
+- Date
+- Time
+- ManyToOne event
+- ManyToMany users
+
+Users
+- Name
+- Address?
+- Age
+- Phone number
+- Email
+- ManyToMany EventGroup
+
+### Endpoints
+#### Event
+- getEvent
+- getEvent/{id}
+- createEvent
+- updateEvent
+- deleteEvent
+- sortEvents/{eventType}
+- sortByPrice
+
+#### User
+- createUser
+- deleteUser
+- updateUser
+- viewUser
+
+
 
 ### How to run
 

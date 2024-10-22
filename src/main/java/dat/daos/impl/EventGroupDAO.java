@@ -2,10 +2,10 @@ package dat.daos.impl;
 
 
 import dat.daos.IDAO;
-import dat.dtos.HotelDTO;
+import dat.dtos.EventDTO;
 import dat.dtos.EventGroupDTO;
 import dat.entities.EventGroup;
-import dat.entities.Hotel;
+import dat.entities.Event;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
@@ -29,16 +29,16 @@ public class EventGroupDAO implements IDAO<EventGroupDTO, Integer> {
         return instance;
     }
 
-    public HotelDTO addRoomToHotel(Integer hotelId, EventGroupDTO eventGroupDTO) {
+    public EventDTO addRoomToHotel(Integer eventId, EventGroupDTO eventGroupDTO) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             EventGroup eventGroup = new EventGroup(eventGroupDTO);
-            Hotel hotel = em.find(Hotel.class, hotelId);
-            hotel.addRoom(eventGroup);
+            Event event = em.find(Event.class, eventId);
+            event.addEventGroup(eventGroup);
             em.persist(eventGroup);
-            Hotel mergedHotel = em.merge(hotel);
+            Event mergedHotel = em.merge(event);
             em.getTransaction().commit();
-            return new HotelDTO(mergedHotel);
+            return new EventDTO(mergedHotel);
         }
     }
 
@@ -111,10 +111,10 @@ public class EventGroupDAO implements IDAO<EventGroupDTO, Integer> {
         }
     };
 
-    public Boolean validateHotelRoomNumber(Integer roomNumber, Integer hotelId) {
+    public Boolean validateEventGroupNumber(Integer eventGroupNumber, Integer hotelId) {
         try (EntityManager em = emf.createEntityManager()) {
-            Hotel hotel = em.find(Hotel.class, hotelId);
-            return hotel.getEventGroups().stream().anyMatch(r -> r.getEventGroupNumber().equals(roomNumber));
+            Event event = em.find(Event.class, hotelId);
+            return event.getEventGroups().stream().anyMatch(r -> r.getEventGroupNumber().equals(eventGroupNumber));
         }
     }
 

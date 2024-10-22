@@ -55,11 +55,12 @@ public class EventDAO implements IDAO<EventDTO, Integer> {
     public EventDTO update(Integer integer, EventDTO eventDTO) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            Event h = em.find(Event.class, integer);
-            h.setHotelName(eventDTO.getEventName());
-            h.setHotelAddress(eventDTO.getDescription());
-            h.setHotelType(eventDTO.getDressCode());
-            Event mergedEvent = em.merge(h);
+            Event e = em.find(Event.class, integer);
+            e.setEventName(eventDTO.getEventName());
+            e.setDescription(eventDTO.getDescription());
+            e.setDressCode(eventDTO.getDressCode());
+            e.setEstimatedPrice(eventDTO.getEstimatedPrice());
+            Event mergedEvent = em.merge(e);
             em.getTransaction().commit();
             return mergedEvent != null ? new EventDTO(mergedEvent) : null;
         }

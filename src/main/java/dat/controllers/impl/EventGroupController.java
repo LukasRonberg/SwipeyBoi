@@ -3,7 +3,7 @@ package dat.controllers.impl;
 import dat.config.HibernateConfig;
 import dat.controllers.IController;
 import dat.daos.impl.EventGroupDAO;
-import dat.dtos.HotelDTO;
+import dat.dtos.EventDTO;
 import dat.dtos.EventGroupDTO;
 import dat.exceptions.Message;
 import io.javalin.http.Context;
@@ -55,10 +55,10 @@ public class EventGroupController implements IController<EventGroupDTO, Integer>
             return;
         }
 
-        HotelDTO hotelDTO = dao.addRoomToHotel(hotelId, jsonRequest);
+        EventDTO eventDTO = dao.addRoomToHotel(hotelId, jsonRequest);
         // response
         ctx.res().setStatus(201);
-        ctx.json(hotelDTO, HotelDTO.class);
+        ctx.json(eventDTO, EventDTO.class);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class EventGroupController implements IController<EventGroupDTO, Integer>
     public boolean validatePrimaryKey(Integer integer) {return dao.validatePrimaryKey(integer);}
 
     // Checks if the room number is already in use by the hotel
-    BiFunction<Integer, Integer, Boolean> validateHotelRoomNumber = (roomNumber, hotelId) -> dao.validateHotelRoomNumber(roomNumber, hotelId);
+    BiFunction<Integer, Integer, Boolean> validateHotelRoomNumber = (roomNumber, hotelId) -> dao.validateEventGroupNumber(roomNumber, hotelId);
 
     @Override
     public EventGroupDTO validateEntity(Context ctx) {

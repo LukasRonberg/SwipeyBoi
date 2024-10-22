@@ -38,7 +38,7 @@ public class Event {
     @Column(name = "dress_code", nullable = false)
     private DressCode dressCode;
 
-    @OneToMany(mappedBy = "eventgroup", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<EventGroup> eventGroups = new HashSet<>();
 
     /*public Event(String hotelName, String hotelAddress, HotelType hotelType) {
