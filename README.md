@@ -4,20 +4,7 @@ This project aims to bring people together by swiping through different experien
 It is implemented using Javalin and JPA
 
 ### ER Diagram
-Event
-- Name
-- Estimated Price
-- Dress code
-- Descriptions
-- OneToMany eventGroup
-
-EventGroup
-- Location
-- Name (location + event name?)
-- Date
-- Time
-- ManyToOne event
-- ManyToMany users
+![ER Diagram](docs/currentERDiagram.png)
 
 Users
 - Name
