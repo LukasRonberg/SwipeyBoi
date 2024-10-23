@@ -14,7 +14,6 @@ public class EventGroupDTO {
     private Integer Id;
     private Integer EventGroupNumber;
     private Double EventGroupPrice;
-    private EventGroup.eventgroupType EventGroupType;
     private LocalDate eventDate;
     private LocalTime eventTime;
 
@@ -22,7 +21,6 @@ public class EventGroupDTO {
         this.Id = EventGroup.getEventGroupId();
         this.EventGroupNumber = EventGroup.getEventGroupNumber();
         this.EventGroupPrice = EventGroup.getEventGroupPrice();
-        this.EventGroupType = EventGroup.getEventGroupType();
         this.eventDate = EventGroup.getEventDate();
         this.eventTime = EventGroup.getEventTime();
     }
@@ -39,7 +37,7 @@ public class EventGroupDTO {
             return false;
 
         EventGroupDTO EventGroupDTO = (EventGroupDTO) o;
-        return getId().equals(EventGroupDTO.getId()) && getEventGroupNumber().equals(EventGroupDTO.getEventGroupNumber()) && getEventGroupPrice().equals(EventGroupDTO.getEventGroupPrice()) && getEventGroupType() == EventGroupDTO.getEventGroupType();
+        return getId().equals(EventGroupDTO.getId()) && getEventGroupNumber().equals(EventGroupDTO.getEventGroupNumber()) && getEventGroupPrice().equals(EventGroupDTO.getEventGroupPrice());
     }
 
     @Override
@@ -47,7 +45,6 @@ public class EventGroupDTO {
         int result = getId().hashCode();
         result = 31 * result + getEventGroupNumber().hashCode();
         result = 31 * result + getEventGroupPrice().hashCode();
-        result = 31 * result + getEventGroupType().hashCode();
         return result;
     }
 }

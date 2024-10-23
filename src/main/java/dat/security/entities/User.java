@@ -1,5 +1,7 @@
 package dat.security.entities;
 
+import dat.dtos.EventDTO;
+import dat.dtos.UserDTO;
 import dat.entities.EventGroup;
 import jakarta.persistence.*;
 import lombok.*;
@@ -89,6 +91,13 @@ public class User implements Serializable, ISecurityUser {
     public User(String userName, Set<Role> roleEntityList) {
         this.username = userName;
         this.roles = roleEntityList;
+    }
+
+    public User(UserDTO userDTO){
+        this.username = userDTO.getUsername();
+        this.age = userDTO.getAge();
+        this.email = userDTO.getEmail();
+        this.phoneNumber = userDTO.getPhoneNumber();
     }
 
     public void addRole(Role role) {
