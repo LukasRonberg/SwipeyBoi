@@ -9,7 +9,7 @@ POST {{url}}/auth/register/
     "password": "test123",
     "age": 25,
     "email": "user@example.com",
-    "phoneNumber": "+1234567890"
+    "phoneNumber": 1234567890
 }
 
 ###
@@ -24,6 +24,11 @@ POST {{url}}/auth/login/
     client.global.set("jwt_token", response.body.token);
     console.log("JWT Token:", client.global.get("jwt_token"));
 %}
+
+###
+GET {{url}}/event/type/Adrenalin
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
 
 ###
 GET {{url}}/protected/user_demo/
@@ -48,15 +53,18 @@ Authorization: Bearer {{jwt_token}}
 
 ###
 GET {{url}}/user
-
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
 
 ###
 GET {{url}}/event
-
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
 ###
 
 GET {{url}}/eventgroup/2
-
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
 ###
 
 POST {{url}}/eventgroup
@@ -81,21 +89,24 @@ Content-Type: application/json
 
 ###
 
-DELETE {{url}}/events/5
+DELETE {{url}}/event/5
 
 ###
 
 // Room API
 
-GET {{url}}/eventgroups
+GET {{url}}/eventgroup
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
 
 ###
 
-GET {{url}}/eventgroups/1
-
+GET {{url}}/eventgroup/1
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
 ###
 
-POST {{url}}/eventgroups/event/3
+POST {{url}}/eventgroup/event/3
 Content-Type: application/json
 
 {

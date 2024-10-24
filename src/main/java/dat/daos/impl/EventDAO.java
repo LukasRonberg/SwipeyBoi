@@ -85,4 +85,30 @@ public class EventDAO implements IDAO<EventDTO, Integer> {
             return event != null;
         }
     }
+
+    /*public List<EventDTO> getByType(String type) {
+        try (EntityManager em = emf.createEntityManager()) {
+            TypedQuery<EventDTO> query = em.createQuery("SELECT new dat.dtos.EventDTO(h) FROM Event h WHERE h.eventType = :type", EventDTO.class);
+            query.setParameter("type", type);
+            return query.getResultList();
+        }
+    }*/
+
+    public List<EventDTO> getByType(String type) {
+        try (EntityManager em = emf.createEntityManager()) {
+            // Convert the string input to the EventType enum
+            Event.EventType eventType;
+            try {
+                eventType = Event.EventType.valueOf(type);  // Convert string to EventType enum
+            } catch (IllegalArgumentException e) {
+                throw new RuntimeException("Invalid event type: " + type);  // Handle invalid enum value
+            }
+
+            // Use the converted EventType enum in the query
+            TypedQuery<EventDTO> query = em.createQuery("SELECT new dat.dtos.EventDTO(h) FROM Event h WHERE h.eventType = :type", EventDTO.class);
+            query.setParameter("type", eventType);  // Pass enum value to the query
+            return query.getResultList();
+        }
+    }
+
 }

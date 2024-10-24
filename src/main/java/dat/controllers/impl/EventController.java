@@ -30,6 +30,16 @@ public class EventController implements IController<EventDTO, Integer> {
         ctx.json(eventDTO, EventDTO.class);
     }
 
+    public void getByType(Context ctx) {
+        // request
+        String type = ctx.pathParam("type");
+        // List of DTOS
+        List<EventDTO> eventDTOS = dao.getByType(type);
+        // response
+        ctx.res().setStatus(200);
+        ctx.json(eventDTOS, EventDTO.class);
+    }
+
     @Override
     public void readAll(Context ctx) {
         // List of DTOS

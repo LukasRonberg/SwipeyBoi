@@ -16,6 +16,7 @@ public class EventRoute {
             post("/", eventController::create, Role.ADMIN);
             get("/", eventController::readAll, Role.USER);
             get("/{id}", eventController::read, Role.USER);
+            get("/type/{type}", eventController::getByType, Role.USER);
             put("/{id}", eventController::update, Role.ADMIN);
             delete("/{id}", eventController::delete, Role.ADMIN);
         };

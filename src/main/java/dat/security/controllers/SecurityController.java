@@ -86,6 +86,7 @@ public class SecurityController implements ISecurityController {
 
                 ctx.status(HttpStatus.CREATED).json(returnObject
                         .put("token", token)
+                                //.put("id",created.getId())
                         .put("username", created.getUsername())
                         .put("age", userInput.getAge())
                         .put("email", userInput.getEmail())

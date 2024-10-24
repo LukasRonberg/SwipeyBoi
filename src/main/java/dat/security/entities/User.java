@@ -25,17 +25,17 @@ import java.util.Set;
 @AllArgsConstructor
 @ToString
 public class User implements Serializable, ISecurityUser {
-    @Id
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Id
+    /*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false, unique = true)
-    private Integer id;
+    private Integer id;*/
 
+    @Id
     @Basic(optional = false)
-    @Column(name = "username", length = 25)
+    @Column(name = "username", length = 25, unique = true)
     private String username;
     @Basic(optional = false)
     @Column(name = "password")

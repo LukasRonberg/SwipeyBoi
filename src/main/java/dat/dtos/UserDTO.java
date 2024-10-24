@@ -14,6 +14,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO extends dk.bugelhartmann.UserDTO {
+    //private int id;
+
     private int age;
 
     private int phoneNumber;
@@ -25,6 +27,7 @@ public class UserDTO extends dk.bugelhartmann.UserDTO {
     private Set<String> roles = new HashSet();
 
     public UserDTO(User user) {
+        //this.id = user.getId();
         this.username = user.getUsername();
         this.roles = user.getRolesAsStrings();
         this.age = user.getAge();
