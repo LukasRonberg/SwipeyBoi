@@ -3,20 +3,23 @@ package dat.controllers.impl;
 import dat.config.HibernateConfig;
 import dat.controllers.IController;
 import dat.daos.impl.EventDAO;
+import dat.daos.impl.UserDAO;
 import dat.dtos.EventDTO;
+import dat.dtos.UserDTO;
 import dat.entities.Event;
+import dat.security.entities.User;
 import io.javalin.http.Context;
 import jakarta.persistence.EntityManagerFactory;
 
 import java.util.List;
 
-public class UserController implements IController<EventDTO, Integer> {
+public class UserController implements IController<UserDTO, Integer> {
 
-    private final EventDAO dao;
+    private final UserDAO dao;
 
     public UserController() {
         EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
-        this.dao = EventDAO.getInstance(emf);
+        this.dao = UserDAO.getInstance(emf);
     }
 
     @Override
@@ -24,30 +27,30 @@ public class UserController implements IController<EventDTO, Integer> {
         // request
         int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
         // DTO
-        EventDTO eventDTO = dao.read(id);
+        UserDTO userDAO = dao.read(id);
         // response
         ctx.res().setStatus(200);
-        ctx.json(eventDTO, EventDTO.class);
+        ctx.json(userDAO, UserDTO.class);
     }
 
     @Override
     public void readAll(Context ctx) {
         // List of DTOS
-        List<EventDTO> eventDTOS = dao.readAll();
+        List<UserDTO> userDTOs = dao.readAll();
         // response
         ctx.res().setStatus(200);
-        ctx.json(eventDTOS, EventDTO.class);
+        ctx.json(userDTOs, UserDTO.class);
     }
 
     @Override
     public void create(Context ctx) {
         // request
-        EventDTO jsonRequest = ctx.bodyAsClass(EventDTO.class);
+        UserDTO jsonRequest = ctx.bodyAsClass(UserDTO.class);
         // DTO
-        EventDTO eventDTO = dao.create(jsonRequest);
+        UserDTO userDTO = dao.create(jsonRequest);
         // response
         ctx.res().setStatus(201);
-        ctx.json(eventDTO, EventDTO.class);
+        ctx.json(userDTO, UserDTO.class);
     }
 
     @Override
@@ -55,10 +58,10 @@ public class UserController implements IController<EventDTO, Integer> {
         // request
         int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
         // dto
-        EventDTO eventDTO = dao.update(id, validateEntity(ctx));
+        UserDTO userDTO = dao.update(id, validateEntity(ctx));
         // response
         ctx.res().setStatus(200);
-        ctx.json(eventDTO, Event.class);
+        ctx.json(userDTO, User.class);
     }
 
     @Override
@@ -75,12 +78,11 @@ public class UserController implements IController<EventDTO, Integer> {
         return dao.validatePrimaryKey(integer);
     }
 
+
     @Override
-    public EventDTO validateEntity(Context ctx) {
-        return ctx.bodyValidator(EventDTO.class)
-                .check( h -> h.getDescription() != null && !h.getDescription().isEmpty(), "Hotel address must be set")
-                .check( h -> h.getEventName() != null && !h.getEventName().isEmpty(), "Hotel name must be set")
-                .check( h -> h.getDressCode() != null, "Hotel type must be set")
+    public UserDTO validateEntity(Context ctx) {
+        return ctx.bodyValidator(UserDTO.class)
+                .check( h -> h.getEmail() != null && !h.getEmail().isEmpty(), "Hotel address must be set")
                 .get();
     }
 

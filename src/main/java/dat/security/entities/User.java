@@ -93,6 +93,14 @@ public class User implements Serializable, ISecurityUser {
         this.roles = roleEntityList;
     }
 
+    public User(String username, String password, int age, int phoneNumber, String email) {
+        this.username = username;
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+        this.age = age;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
     public User(UserDTO userDTO){
         this.username = userDTO.getUsername();
         this.age = userDTO.getAge();

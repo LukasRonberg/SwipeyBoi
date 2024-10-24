@@ -34,8 +34,6 @@ public class EventGroup {
     @Column(name = "price", nullable = false)
     private double EventGroupPrice;
 
-
-
     @Setter
     @Column(name = "event_date", nullable = false)
     private LocalDate eventDate;

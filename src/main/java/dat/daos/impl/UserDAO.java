@@ -35,7 +35,7 @@ public class UserDAO implements IDAO<UserDTO, Integer> {
     @Override
     public List<UserDTO> readAll() {
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<UserDTO> query = em.createQuery("SELECT new dat.dtos.UserDTO(h) FROM User h", UserDTO.class);
+            TypedQuery<UserDTO> query = em.createQuery("SELECT new dat.dtos.UserDTO(user) FROM User user", UserDTO.class);
             return query.getResultList();
         }
     }

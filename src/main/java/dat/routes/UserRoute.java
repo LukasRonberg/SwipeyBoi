@@ -13,7 +13,6 @@ public class UserRoute {
     protected EndpointGroup getRoutes() {
 
         return () -> {
-            //post("/", userController::create, Role.USER);
             get("/", userController::readAll);
             get("/{id}", userController::read);
             put("/{id}", userController::update);

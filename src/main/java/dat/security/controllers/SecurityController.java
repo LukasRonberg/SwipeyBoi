@@ -75,19 +75,28 @@ public class SecurityController implements ISecurityController {
         return (ctx) -> {
             ObjectNode returnObject = objectMapper.createObjectNode();
             try {
-                UserDTO userInput = ctx.bodyAsClass(UserDTO.class);
-                User created = securityDAO.createUser(userInput.getUsername(), userInput.getPassword());
+                dat.dtos.UserDTO userInput = ctx.bodyAsClass(dat.dtos.UserDTO.class);
+                User created = securityDAO.createUser(userInput.getUsername(), userInput.getPassword(),userInput.getAge(), userInput.getEmail(), userInput.getPhoneNumber());
 
-                String token = createToken(new UserDTO(created.getUsername(), Set.of("USER")));
+                // Populate the second UserDTO with age, email, and phoneNumber
+                UserDTO userDto = new UserDTO(created.getUsername(), Set.of("USER"));
+
+                // Now you can store the extra details if required, and add token logic
+                String token = createToken(userDto);
+
                 ctx.status(HttpStatus.CREATED).json(returnObject
                         .put("token", token)
-                        .put("username", created.getUsername()));
+                        .put("username", created.getUsername())
+                        .put("age", userInput.getAge())
+                        .put("email", userInput.getEmail())
+                        .put("phoneNumber", userInput.getPhoneNumber()));
             } catch (EntityExistsException e) {
                 ctx.status(HttpStatus.UNPROCESSABLE_CONTENT);
                 ctx.json(returnObject.put("msg", "User already exists"));
             }
         };
     }
+
 
     @Override
     public Handler authenticate() throws UnauthorizedResponse {
@@ -188,7 +197,7 @@ public class SecurityController implements ISecurityController {
                 ctx.status(404).json("{\"msg\": \"User not found\"}");
 
 
-                
+
             }
         };
     }

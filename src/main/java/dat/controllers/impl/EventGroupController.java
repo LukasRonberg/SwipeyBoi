@@ -92,7 +92,7 @@ public class EventGroupController implements IController<EventGroupDTO, Integer>
     public EventGroupDTO validateEntity(Context ctx) {
         return ctx.bodyValidator(EventGroupDTO.class)
                 .check(r -> r.getEventGroupNumber() != null && r.getEventGroupNumber() > 0, "Not a valid room number")
-                .check(r -> r.getEventGroupType() != null, "Not a valid room type")
+                //.check(r -> r.getEventGroupType() != null, "Not a valid room type")
                 .check(r -> r.getEventGroupPrice() != null , "Not a valid price")
                 .get();
     }

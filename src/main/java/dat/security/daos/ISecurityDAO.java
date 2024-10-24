@@ -6,6 +6,6 @@ import dk.bugelhartmann.UserDTO;
 
 public interface ISecurityDAO {
     UserDTO getVerifiedUser(String username, String password) throws ValidationException;
-    User createUser(String username, String password);
+    User createUser(String username, String password,int age, String email, int phoneNumber);
     User addRole(UserDTO user, String newRole);
 }
