@@ -13,11 +13,11 @@ public class EventRoute {
     protected EndpointGroup getRoutes() {
 
         return () -> {
-            post("/", eventController::create, Role.USER);
-            get("/", eventController::readAll);
-            get("/{id}", eventController::read);
-            put("/{id}", eventController::update);
-            delete("/{id}", eventController::delete);
+            post("/", eventController::create, Role.ADMIN);
+            get("/", eventController::readAll, Role.USER);
+            get("/{id}", eventController::read, Role.USER);
+            put("/{id}", eventController::update, Role.ADMIN);
+            delete("/{id}", eventController::delete, Role.ADMIN);
         };
     }
 }

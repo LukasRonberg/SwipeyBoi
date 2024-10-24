@@ -25,11 +25,15 @@ import java.util.Set;
 @AllArgsConstructor
 @ToString
 public class User implements Serializable, ISecurityUser {
-
+    @Id
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", nullable = false, unique = true)
+    private Integer id;
+
     @Basic(optional = false)
     @Column(name = "username", length = 25)
     private String username;
@@ -49,7 +53,7 @@ public class User implements Serializable, ISecurityUser {
     @ManyToMany
     @JoinTable(
             name = "user_eventgroup",
-            joinColumns = @JoinColumn(name = "username"),
+            joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "eventgroup_id")
     )
     private Set<EventGroup> eventGroups = new HashSet<>();

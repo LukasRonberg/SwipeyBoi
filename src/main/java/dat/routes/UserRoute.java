@@ -13,10 +13,10 @@ public class UserRoute {
     protected EndpointGroup getRoutes() {
 
         return () -> {
-            get("/", userController::readAll);
-            get("/{id}", userController::read);
-            put("/{id}", userController::update);
-            delete("/{id}", userController::delete);
+            get("/", userController::readAll, Role.USER);
+            get("/{id}", userController::read, Role.USER);
+            put("/{id}", userController::update, Role.ADMIN);
+            delete("/{id}", userController::delete, Role.ADMIN);
         };
     }
 }
