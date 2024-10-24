@@ -3,6 +3,7 @@ package dat.dtos;
 import dat.entities.EventGroup;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @Getter
+@Setter
 public class EventGroupDTO {
     private Integer Id;
     private Integer EventGroupNumber;

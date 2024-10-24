@@ -88,13 +88,24 @@ public class EventGroupDAO implements IDAO<EventGroupDTO, Integer> {
     public void delete(Integer integer) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
+
             EventGroup eventGroup = em.find(EventGroup.class, integer);
-            if (eventGroup != null){
+
+            if (eventGroup != null) {
+                // First, remove the association with the parent Event
+                Event event = eventGroup.getEvent(); // Assuming you have a `getEvent()` method in EventGroup entity
+                if (event != null) {
+                    event.getEventGroups().remove(eventGroup);
+                    em.merge(event); // Update the Event to reflect the removal of the EventGroup
+                }
+                // Now you can safely remove the EventGroup
                 em.remove(eventGroup);
             }
+
             em.getTransaction().commit();
         }
     }
+
 
     @Override
     public boolean validatePrimaryKey(Integer integer) {
